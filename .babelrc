@@ -1,0 +1,28 @@
+{
+  "presets": [
+    "@babel/react",
+  ],
+  "plugins": [
+    "react-hot-loader/babel",
+  ],
+  "env": {
+    "production": {
+      "presets": [
+        ["@babel/env", {
+          "targets": "> 0.25%, not dead",
+          "modules": false,
+        }]
+      ],
+    },
+    "development": {
+      "presets": [
+        ["@babel/env", {
+          "targets": {
+            "browsers": "last 1 Chrome versions",
+          },
+          "modules": false,
+        }]
+      ],
+    },
+  },
+}
