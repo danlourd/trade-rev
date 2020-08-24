@@ -8,23 +8,37 @@ class Photos extends Component {
   constructor(props) {
     super(props);
     this.handlePhotosLoaded = this.handlePhotosLoaded.bind(this);
-    this.state = { photos: [], isLoading: true };
+    this.handleScroll = this.handleScroll.bind(this);
+    this.state = { photos: [], isLoading: true, loadedPage: 1 };
   }
 
   componentDidMount() {
-    UnsplashApi.getPhotos(this.handlePhotosLoaded);
+    UnsplashApi.getPhotos({ page: this.state.loadedPage }, this.handlePhotosLoaded);
   }
 
-  handlePhotosLoaded(photos) {
-    this.setState({ photos, isLoading: false });
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.loadedPage !== prevState.loadedPage){
+      UnsplashApi.getPhotos({ page: this.state.loadedPage }, this.handlePhotosLoaded);
+    }
+  }
+
+  handlePhotosLoaded(pagedPhotos) {
+    this.setState({ photos: [...this.state.photos, ...pagedPhotos], isLoading: false });
+  }
+
+  handleScroll(e) {
+    const bottom = e.target.scrollHeight - e.target.scrollTop === e.target.clientHeight;
+    if (bottom) {
+      this.setState({ loadedPage: this.state.loadedPage + 1, isLoading: true});
+    }
   }
 
   render() {
     return (
-      <div className="photos">
+      <div className="photos" onScroll={this.handleScroll}>
         <div className="photosGrid">
         {
-          this.state.photos.map(photo => <img className="photosImage" src={photo.urls.small}></img>)
+          this.state.photos.map(photo => <img key={photo.id} className="photosImage" src={photo.urls.small}></img>)
         }
         </div>
         <div className="loadingContainer">

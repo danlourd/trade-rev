@@ -6,12 +6,12 @@ import './Main.css';
 
 function Main() {
   return (
-    <React.Fragment>
+    <div className="main">
       <Navbar className="navbarTradeRev fixed-top" expand="lg" variant="dark">
         <Navbar.Brand>TradeRev Coding Challenge</Navbar.Brand>
       </Navbar>
       <Photos />
-    </React.Fragment>
+    </div>
   );
 }
 
