@@ -4,14 +4,14 @@ import Navbar from 'react-bootstrap/Navbar';
 import Photos from '../components/Photos';
 import './Main.css';
 
-const SMALL_SCREEN = 465; 
+const XSMALL_SCREEN = 465; 
 
 function Main() {
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < SMALL_SCREEN);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < XSMALL_SCREEN);
 
   useEffect(() => {
     function handleResize() {
-      setIsSmallScreen(window.innerWidth < SMALL_SCREEN);
+      setIsSmallScreen(window.innerWidth < XSMALL_SCREEN);
     }
 
     window.addEventListener('resize', handleResize)
@@ -22,7 +22,7 @@ function Main() {
   });
 
   return (
-    <div className="main">
+    <div className="overflow-hidden h-100">
       <Navbar className="navbarTradeRev fixed-top" expand="lg" variant="dark">
         <Navbar.Brand>TradeRev Coding Challenge</Navbar.Brand>
       </Navbar>

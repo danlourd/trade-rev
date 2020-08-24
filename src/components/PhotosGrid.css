@@ -1,0 +1,18 @@
+.photosGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  place-items: center;
+  gap: 1rem 1rem;
+}
+
+@media (max-width: 879px) {
+  .photosGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (min-width: 880px) and (max-width: 1295px) {
+  .photosGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}

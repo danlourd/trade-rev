@@ -18,7 +18,16 @@ async function getPhotos(params, handler) {
     method: 'GET',
     headers,
   });
-  response.json().then(result => handler(result));
+
+  response.json().then(photos => {
+    const ids = [];
+    const photosMap = {};
+    photos.forEach(photo => {
+      ids.push(photo.id);
+      photosMap[photo.id] = photo;
+    });
+    handler({ ids, data: photosMap });
+  });
 }
 
 const UnsplashApi = { getPhotos }

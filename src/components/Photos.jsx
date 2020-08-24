@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Spinner from 'react-bootstrap/Spinner'
+import { fromJS } from 'immutable';
 
 import UnsplashApi from '../api/unsplashApi';
+import PhotosGrid from './PhotosGrid';
+import LoadingSpinner from './LoadingSpinner';
 import './Photos.css';
 
 class Photos extends Component {
@@ -10,7 +12,15 @@ class Photos extends Component {
     super(props);
     this.handlePhotosLoaded = this.handlePhotosLoaded.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
-    this.state = { photos: [], isLoading: true, loadedPage: 1 };
+    this.handleImageClick = this.handleImageClick.bind(this);
+    this.state = {
+      photos: fromJS({
+        ids: [],
+        data: {},
+      }),
+      isLoading: true,
+      loadedPage: 1
+    };
   }
 
   componentDidMount() {
@@ -24,7 +34,14 @@ class Photos extends Component {
   }
 
   handlePhotosLoaded(pagedPhotos) {
-    this.setState({ photos: [...this.state.photos, ...pagedPhotos], isLoading: false });
+    const ids = this.state.photos.get('ids');
+    const data = this.state.photos.get('data');
+
+    const photos = this.state.photos.withMutations(mutableState => {
+      mutableState.set('ids', ids.push(...pagedPhotos.ids));
+      mutableState.set('data', data.merge(fromJS(pagedPhotos.data)));
+    }); 
+    this.setState({ photos, isLoading: false });
   }
 
   handleScroll(e) {
@@ -34,23 +51,19 @@ class Photos extends Component {
     }
   }
 
+  handleImageClick(photoId) {
+    console.log(photoId);
+  }
+
   render() {
     return (
       <div className="photos" onScroll={this.handleScroll}>
-        <div className="photosGrid">
-        {
-          this.state.photos.map(photo =>
-            <img 
-              key={photo.id}
-              className="photosImage"
-              src={this.props.isSmallScreen ? photo.urls.thumb : photo.urls.small}
-            />
-          )
-        }
-        </div>
-        <div className="loadingContainer">
-          <Spinner className={this.state.isLoading ? 'd-block' : 'd-none'} animation="border" />
-        </div>
+        <PhotosGrid
+          photos={this.state.photos}
+          isSmallScreen={this.props.isSmallScreen}
+          onImageClick={this.handleImageClick}
+        />
+        <LoadingSpinner isLoading={this.state.isLoading} />
       </div>
     );
   }
