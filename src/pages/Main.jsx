@@ -1,17 +1,17 @@
-import React, { useEffect } from 'react';
+import React from 'react';
+import Navbar from 'react-bootstrap/Navbar';
 
-import UnsplashApi from '../api/unsplashApi';
+import Photos from '../components/Photos';
 import './Main.css';
 
 function Main() {
-  useEffect(() => {
-    UnsplashApi.getPhotos();
-  })
-
   return (
-    <div className="main">
-      <h1 className="mainTitle">TradeRev Coding Challenge</h1>
-    </div>
+    <React.Fragment>
+      <Navbar className="navbarTradeRev fixed-top" expand="lg" variant="dark">
+        <Navbar.Brand>TradeRev Coding Challenge</Navbar.Brand>
+      </Navbar>
+      <Photos />
+    </React.Fragment>
   );
 }
 
