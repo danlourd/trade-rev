@@ -1,0 +1,9 @@
+.heightAdjust {
+  width: 100%;
+  height: auto;
+}
+
+.widthAdjust {
+  width: auto;
+  height: 100%;
+}

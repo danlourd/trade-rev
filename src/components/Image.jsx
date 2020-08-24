@@ -16,6 +16,7 @@ class Image extends Component{
   render() {
     return (
       <img
+        id={this.props.id}
         src={this.props.imageSrc}
         onClick={this.handleImageClick}
         alt={this.props.altText}

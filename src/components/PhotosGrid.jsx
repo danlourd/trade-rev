@@ -15,6 +15,8 @@ function PhotosGrid({ photos, isSmallScreen, onImageClick }) {
             imageSrc={isSmallScreen ? photos.getIn(['data', id, 'urls', 'thumb']) : photos.getIn(['data', id, 'urls', 'small'])}
             onImageClick={onImageClick}
             altText={photos.getIn(['data', id, 'alt_description'])}
+            width={photos.getIn(['data', id, 'width'])}
+            height={photos.getIn(['data', id, 'height'])}
           />
         )
       }

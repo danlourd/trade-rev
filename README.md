@@ -17,9 +17,3 @@
   npm run local
  ```
   open `localhost:3010`
-  
- To run the unit test
- ```
-  npm run test
- ```
-   - generates a coverage folder, open index.html to view the coverage report

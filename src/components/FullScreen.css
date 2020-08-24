@@ -1,0 +1,29 @@
+.fullScreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1050;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  outline: 0;
+  background-color: rgba(0,0,0,0.5);
+}
+
+.fullScreenButtonPrev, .fullScreenButtonNext {
+  top: calc(50% - 25px);
+  position: fixed;
+}
+
+.fullScreenButtonPrev {
+  left: 25px;
+}
+
+.fullScreenButtonNext {
+  left: calc(100% - 75px);
+}
+
+.fullScreenClose {
+  left: calc(100% - 50px);
+  position: fixed;
+}

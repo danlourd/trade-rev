@@ -5,6 +5,7 @@ import { fromJS } from 'immutable';
 import UnsplashApi from '../api/unsplashApi';
 import PhotosGrid from './PhotosGrid';
 import LoadingSpinner from './LoadingSpinner';
+import FullScreen from './FullScreen';
 import './Photos.css';
 
 class Photos extends Component {
@@ -13,13 +14,16 @@ class Photos extends Component {
     this.handlePhotosLoaded = this.handlePhotosLoaded.bind(this);
     this.handleScroll = this.handleScroll.bind(this);
     this.handleImageClick = this.handleImageClick.bind(this);
+    this.handleFullScreenClose = this.handleFullScreenClose.bind(this);
     this.state = {
       photos: fromJS({
         ids: [],
         data: {},
       }),
       isLoading: true,
-      loadedPage: 1
+      loadedPage: 1,
+      show: false,
+      selectedPhotoId: null,
     };
   }
 
@@ -37,11 +41,25 @@ class Photos extends Component {
     const ids = this.state.photos.get('ids');
     const data = this.state.photos.get('data');
 
+    pagedPhotos = this.removeDuplicates(pagedPhotos, ids);
+
     const photos = this.state.photos.withMutations(mutableState => {
       mutableState.set('ids', ids.push(...pagedPhotos.ids));
       mutableState.set('data', data.merge(fromJS(pagedPhotos.data)));
     }); 
     this.setState({ photos, isLoading: false });
+  }
+
+  removeDuplicates(pagedPhotos, ids) {
+    const filteredIds = pagedPhotos.ids.filter(id => !ids.includes(id));
+    const filteredData = {};
+    filteredIds.forEach(id => {
+      filteredData[id] = pagedPhotos.data[id];
+    });
+    
+    pagedPhotos.ids = filteredIds;
+    pagedPhotos.data = filteredData;
+    return pagedPhotos;
   }
 
   handleScroll(e) {
@@ -52,7 +70,13 @@ class Photos extends Component {
   }
 
   handleImageClick(photoId) {
-    console.log(photoId);
+    this.setState({ show: true, selectedPhotoId: photoId });
+  }
+
+  handleFullScreenClose(photoId) {
+    this.setState({ show: false });
+    const elmnt = document.getElementById(photoId);
+    elmnt.scrollIntoView();
   }
 
   render() {
@@ -64,6 +88,14 @@ class Photos extends Component {
           onImageClick={this.handleImageClick}
         />
         <LoadingSpinner isLoading={this.state.isLoading} />
+        { !this.state.show ||
+          <FullScreen
+            show={this.state.show}
+            photos={this.state.photos}
+            startingPhotoId={this.state.selectedPhotoId}
+            onClose={this.handleFullScreenClose}
+          />
+        }
       </div>
     );
   }
