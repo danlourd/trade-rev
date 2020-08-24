@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import Spinner from 'react-bootstrap/Spinner'
 
 import UnsplashApi from '../api/unsplashApi';
@@ -38,7 +39,13 @@ class Photos extends Component {
       <div className="photos" onScroll={this.handleScroll}>
         <div className="photosGrid">
         {
-          this.state.photos.map(photo => <img key={photo.id} className="photosImage" src={photo.urls.small}></img>)
+          this.state.photos.map(photo =>
+            <img 
+              key={photo.id}
+              className="photosImage"
+              src={this.props.isSmallScreen ? photo.urls.thumb : photo.urls.small}
+            />
+          )
         }
         </div>
         <div className="loadingContainer">
@@ -47,6 +54,14 @@ class Photos extends Component {
       </div>
     );
   }
+}
+
+Photos.propTypes = {
+  isSmallScreen: PropTypes.bool,
+}
+
+Photos.defaultProps = {
+  isSmallScreen: false,
 }
 
 export default Photos;
