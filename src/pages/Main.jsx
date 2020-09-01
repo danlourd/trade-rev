@@ -2,7 +2,6 @@ import React, { useState, useEffect} from 'react';
 import Navbar from 'react-bootstrap/Navbar';
 
 import Photos from '../components/Photos';
-import './Main.css';
 
 const XSMALL_SCREEN = 465; 
 
@@ -23,8 +22,8 @@ function Main() {
 
   return (
     <div className="overflow-hidden h-100">
-      <Navbar className="navbarTradeRev fixed-top" expand="lg" variant="dark">
-        <Navbar.Brand>TradeRev Coding Challenge</Navbar.Brand>
+      <Navbar className="fixed-top" bg="primary" expand="lg" variant="dark">
+        <Navbar.Brand>Unsplash Photo Client</Navbar.Brand>
       </Navbar>
       <Photos isSmallScreen={isSmallScreen}/>
     </div>
