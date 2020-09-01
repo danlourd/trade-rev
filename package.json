@@ -1,11 +1,11 @@
 {
   "name": "unsplash-photo-client",
   "version": "0.0.1",
-  "description": "TradeRev Coding Challenge",
+  "description": "Unsplash Photos in CSS Grid",
   "main": "index.jsx",
   "repository": {
     "type": "git",
-    "url": "https://github.com/danlourd/trade-rev.git"
+    "url": "https://github.com/danlourd/unsplash-client.git"
   },
   "scripts": {
     "test": "karma start --single-run",

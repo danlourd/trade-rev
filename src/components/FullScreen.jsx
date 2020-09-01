@@ -2,6 +2,7 @@ import React, { Component, useState } from 'react';
 import PropTypes from 'prop-types';
 
 import AdjustableImage from './AdjustableImage';
+import HideableButton from './HideableButton';
 
 import './FullScreen.css';
 
@@ -25,12 +26,18 @@ class FullScreen extends Component {
       photoId: props.startingPhotoId,
       isMouseMoving: false,
       interval: null,
+      lastMouseMove: null,
     };
   }
 
   componentDidMount() {
     clearInterval(this.state.interval);
-    const interval = setInterval(() => this.setState({ isMouseMoving: false }), 3000);
+    const interval = setInterval(() => {
+      const { lastMouseMove } = this.state;
+      if (lastMouseMove && Date.now() - lastMouseMove >= 3000) {
+        this.setState({ isMouseMoving: false, lastMouseMove: null })
+      }
+    }, 1000);
     this.setState({ interval })
   }
 
@@ -61,7 +68,7 @@ class FullScreen extends Component {
 
   handleMouseMove(e) {
     e.preventDefault();
-    this.setState({ isMouseMoving: true }); 
+    this.setState({ isMouseMoving: true, lastMouseMove: Date.now() }); 
   }
 
   handleKeyDown(e) {
@@ -80,12 +87,18 @@ class FullScreen extends Component {
     if (show && photoId) {
       return (
         <div className="fullScreen" tabIndex="0" onMouseMove={this.handleMouseMove} onKeyDown={this.handleKeyDown}>
-          <button className={`btn close fullScreenClose text-light mt-2 ${isMouseMoving ? 'visible' : 'invisible'}`} onClick={this.handleClose}>
+          <HideableButton
+            isHidden={!isMouseMoving}
+            className="close fullScreenClose text-light mt-2"
+            onClick={this.handleClose}
+          >
             <span>&times;</span>
-          </button>
-          <button className={`btn fullScreenButtonPrev ${isMouseMoving ? 'visible' : 'invisible'}`} onClick={this.handlePrev}>
-            <span className="carousel-control-prev-icon" />
-          </button>
+          </HideableButton>
+          <HideableButton
+            isHidden={!isMouseMoving}
+            className="fullScreenButtonPrev"
+            icon="carousel-control-prev-icon"
+            onClick={this.handlePrev} />
           <div className="w-100 h-100 d-flex justify-content-center align-items-center">
             <AdjustableImage
               imageSrc={photos.getIn(['data', photoId, 'urls', 'regular'])}
@@ -94,9 +107,12 @@ class FullScreen extends Component {
               height={photos.getIn(['data', photoId, 'height'])}
             />
           </div>
-          <button className={`btn fullScreenButtonNext ${isMouseMoving ? 'visible' : 'invisible'}`} onClick={this.handleNext}>
-            <span className="carousel-control-next-icon" />
-          </button>
+          <HideableButton
+            isHidden={!isMouseMoving}
+            className="fullScreenButtonNext"
+            icon="carousel-control-next-icon"
+            onClick={this.handleNext}
+          />
         </div>
       );
     }

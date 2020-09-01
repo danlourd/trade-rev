@@ -1,5 +1,5 @@
-# TradeRev Coding Challenge
- View photos from Unsplash server with a React client
+# Unsplash Photos with CSS Grid
+ View photos from Unsplash server with a React client using CSS Grid
 
 ### Client
  Add a config.js file to the root directory, copy the code below and update with your access/api key

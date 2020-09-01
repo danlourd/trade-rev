@@ -1,12 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-import './AdjustableImage.css';
-
 function AdjustableImage({ width, height, imageSrc, altText }) {
   return (
     <img
-      className={width > height ? 'heightAdjust' : 'widthAdjust'}
+      className={width > height ? 'w-100 h-auto' : 'w-auto h-100'}
       src={imageSrc}
       alt={altText}
     />
