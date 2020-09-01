@@ -4,7 +4,7 @@ const config = require('./config');
 function getLocalConfig() {
   const options = {
     port: '3010',
-    siteName: 'TradeRev Coding Challenge',
+    siteName: 'Unsplash Photo React Client',
     dirname: __dirname,
     mode: 'development',
     apiKey: config.unsplashApiKey,
